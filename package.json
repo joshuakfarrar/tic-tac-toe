@@ -13,8 +13,6 @@
     "serve-favicon": "~2.1.3",
     "debug": "~2.0.0",
     "ejs": "~0.8.5",
-    "less-middleware": "1.0.x",
-    "grunt": "latest",
-    "grunt-bower": "latest"
+    "less-middleware": "1.0.x"
   }
 }

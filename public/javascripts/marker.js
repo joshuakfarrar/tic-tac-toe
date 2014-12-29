@@ -1,8 +1,6 @@
 define(function() {
   var Marker = Class.extend({
-    init: function(name, x, y) {
-      this.name = name;
-
+    init: function(x, y) {
       this.x = x;
       this.y = y;
     }

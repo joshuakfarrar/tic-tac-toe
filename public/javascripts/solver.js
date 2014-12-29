@@ -1,16 +1,16 @@
-define(function() {
+define(['x', 'o'], function(X, O) {
   var Solver = Class.extend({
     init: function(board) {
       this.board = board;
-      this.markers = ['x', 'o'];
+      this.markers = [X, O];
 
       this.victor = false;
     },
 
     victoryConditionsMet: function() {
       for (var i = 0; i < 3; i++) {
-        this.checkRow([this.board.markers[i][0], this.board.markers[i][1], this.board.markers[i][2]]);
-        this.checkRow([this.board.markers[0][i], this.board.markers[1][i], this.board.markers[2][i]]);
+        this.checkRow([this.board.markers.getMarkerAt(i, 0), this.board.markers.getMarkerAt(i, 1), this.board.markers.getMarkerAt(i, 2)]);
+        this.checkRow([this.board.markers.getMarkerAt(0, i), this.board.markers.getMarkerAt(1, i), this.board.markers.getMarkerAt(2, i)]);
 
         // why continue if we have a winner?
         if (this.victor) {
@@ -18,8 +18,8 @@ define(function() {
         }
       }
 
-      this.checkRow([this.board.markers[0][0], this.board.markers[1][1], this.board.markers[2][2]]);
-      this.checkRow([this.board.markers[2][0], this.board.markers[1][1], this.board.markers[0][2]]);
+      this.checkRow([this.board.markers.getMarkerAt(0, 0), this.board.markers.getMarkerAt(1, 1), this.board.markers.getMarkerAt(2, 2)]);
+      this.checkRow([this.board.markers.getMarkerAt(2, 0), this.board.markers.getMarkerAt(1, 1), this.board.markers.getMarkerAt(0, 2)]);
 
       return this.victor;
     },
@@ -39,7 +39,7 @@ define(function() {
     },
 
     verifyMarkerTypes: function(row, markerBeingChecked) {
-      return ((row[0].name == markerBeingChecked) && (row[1].name == markerBeingChecked)) && (row[2].name == markerBeingChecked);
+      return ((row[0] instanceof markerBeingChecked) && (row[1] instanceof markerBeingChecked)) && (row[2] instanceof markerBeingChecked);
     }
   });
 

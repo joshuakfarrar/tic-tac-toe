@@ -1,4 +1,4 @@
-define(['marker', 'board', 'solver', 'updater', 'renderer'], function(Marker, Board, Solver, Updater, Renderer) {
+define(['x', 'o', 'board', 'solver', 'updater', 'renderer'], function(X, O, Board, Solver, Updater, Renderer) {
   var Game = Class.extend({
     init: function() {
       this.started = false;
@@ -7,8 +7,6 @@ define(['marker', 'board', 'solver', 'updater', 'renderer'], function(Marker, Bo
       this.turn = true;
 
       this.solver = new Solver(this.board);
-
-      this.markerNames = ['x', 'o'];
     },
 
     setup: function(canvas) {
@@ -51,12 +49,12 @@ define(['marker', 'board', 'solver', 'updater', 'renderer'], function(Marker, Bo
           marker;
 
       if (this.turn) {
-        marker = new Marker('x', pos.x, pos.y);
+        marker = new X(pos.x, pos.y);
       } else {
-        marker = new Marker('o', pos.x, pos.y);
+        marker = new O(pos.x, pos.y);
       }
 
-      if (this.board.setMarker(marker)) {
+      if (this.board.markers.addMarker(marker)) {
         this.turn = !this.turn;
       }
     },

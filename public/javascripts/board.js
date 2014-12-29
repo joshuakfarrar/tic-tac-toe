@@ -4,11 +4,15 @@ define(['markers'], function(Markers) {
       this.markers = new Markers();
     },
 
-    setMarker: function(marker) {
+    addMarker: function(marker) {
       if (this.markers.addMarker(marker)) {
         return true;
       }
       return false;
+    },
+
+    getMarkerAt: function(x, y) {
+      return this.markers.getMarkerAt(x, y) || false;
     }
 
 

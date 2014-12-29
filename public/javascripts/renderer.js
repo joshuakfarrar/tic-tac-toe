@@ -1,4 +1,4 @@
-define(['x', 'o'], function(X, O) {
+define(['x', 'o', 'marker'], function(X, O, Marker) {
   var Renderer = Class.extend({
     init: function(game, canvas) {
       this.game = game;
@@ -15,8 +15,7 @@ define(['x', 'o'], function(X, O) {
 
       for (var i = 0; i < 3; i++)
         for (var k = 0; k < 3; k++)
-          if (this.game.board.getMarkerAt(i,k) != null)
-            this.drawMarker(this.game.board.markers.getMarkerAt(i,k))
+          this.drawMarker(this.game.board.getMarkerAt(i,k))
     },
 
     clearScreen: function(context) {
@@ -66,8 +65,6 @@ define(['x', 'o'], function(X, O) {
     },
 
     drawMarker: function(marker) {
-      if (typeof marker === null) return false;
-
       if (marker instanceof X) {
         this.drawX(marker);
       } else if (marker instanceof O) {

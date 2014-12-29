@@ -12,7 +12,6 @@ define(['solver'], function(Solver) {
       }
 
       if (this.solver.victoryConditionsMet()) {
-        console.log("winner");
         this.winner = true;
       }
     }

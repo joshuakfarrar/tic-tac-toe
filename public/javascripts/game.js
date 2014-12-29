@@ -54,7 +54,7 @@ define(['x', 'o', 'board', 'solver', 'updater', 'renderer'], function(X, O, Boar
         marker = new O(pos.x, pos.y);
       }
 
-      if (this.board.markers.addMarker(marker)) {
+      if (this.board.addMarker(marker)) {
         this.turn = !this.turn;
       }
     },

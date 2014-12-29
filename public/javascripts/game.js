@@ -5,6 +5,7 @@ define(['x', 'o', 'board', 'solver', 'updater', 'renderer'], function(X, O, Boar
       this.mouse = { x: 0, y: 0 };
       this.board = new Board();
       this.turn = true;
+      this.finished = false;
 
       this.solver = new Solver(this.board);
     },
@@ -45,6 +46,10 @@ define(['x', 'o', 'board', 'solver', 'updater', 'renderer'], function(X, O, Boar
     },
 
     click: function() {
+      if (this.finished) {
+        return false;
+      }
+
       var pos = this.getMouseGridPosition(),
           marker;
 

@@ -7,12 +7,13 @@ define(['solver'], function(Solver) {
     },
 
     update: function() {
-      if (this.winner) {
+      if (this.game.finished) {
         return false;
       }
 
       if (this.solver.victoryConditionsMet()) {
-        this.winner = true;
+        console.log("victory");
+        this.game.finished = true;
       }
     }
   });

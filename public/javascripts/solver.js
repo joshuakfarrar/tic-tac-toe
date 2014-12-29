@@ -2,7 +2,6 @@ define(['x', 'o'], function(X, O) {
   var Solver = Class.extend({
     init: function(board) {
       this.markers = board.markers;
-
       this.victor = false;
     },
 

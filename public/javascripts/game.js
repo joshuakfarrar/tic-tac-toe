@@ -1,7 +1,14 @@
-define(['updater', 'renderer'], function(Updater, Renderer) {
+define(['marker', 'board', 'solver', 'updater', 'renderer'], function(Marker, Board, Solver, Updater, Renderer) {
   var Game = Class.extend({
     init: function() {
       this.started = false;
+      this.mouse = { x: 0, y: 0 };
+      this.board = new Board();
+      this.turn = true;
+
+      this.solver = new Solver(this.board);
+
+      this.markerNames = ['x', 'o'];
     },
 
     setup: function(canvas) {
@@ -26,23 +33,43 @@ define(['updater', 'renderer'], function(Updater, Renderer) {
 
     run: function() {
       var self = this;
-      var i = 0;  // fake loading
 
       this.setUpdater(new Updater(this));
 
       var wait = setInterval(function() {
-        self.ready = (i == 10) ? true : false;  // fake loading
+        self.ready = true;
 
         if (self.ready) {
           self.start();
           clearInterval(wait);
         }
-
-        i++; // fake loading
       }, 100);
     },
 
     click: function() {
+      var pos = this.getMouseGridPosition(),
+          marker;
+
+      if (this.turn) {
+        marker = new Marker('x', pos.x, pos.y);
+      } else {
+        marker = new Marker('o', pos.x, pos.y);
+      }
+
+      if (this.board.setMarker(marker)) {
+        this.turn = !this.turn;
+      }
+    },
+
+    getMouseGridPosition: function() {
+      var canvas = this.renderer.canvas;
+
+      var mx = this.mouse.x,
+          my = this.mouse.y,
+          x = Math.floor((mx / (canvas.width - 1)) * 3 % 3),
+          y = Math.floor((my / (canvas.height - 1)) * 3 % 3);
+
+      return { x: x, y: y };
     },
 
     setUpdater: function(updater) {

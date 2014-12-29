@@ -36,7 +36,9 @@ define(['x', 'o', 'board', 'solver', 'updater', 'renderer'], function(X, O, Boar
       this.setUpdater(new Updater(this));
 
       var wait = setInterval(function() {
-        self.ready = true;
+        if (self.renderer) {
+          self.ready = true;
+        }
 
         if (self.ready) {
           self.start();

@@ -12,13 +12,14 @@ define(['solver'], function(Solver) {
         return false;
       }
       
-      if (!this.referee.isHumanTurn()) {
-        this.referee.playForBot();
-      }
-
       if (this.solver.victoryConditionsMet()) {
         console.log("victory");
         this.game.finished = true;
+        return false;
+      }
+      
+      if (!this.referee.isHumanTurn()) {
+        this.referee.playForBot();
       }
     }
   });

@@ -1,11 +1,13 @@
-define(['x', 'o', 'board', 'solver', 'updater', 'renderer'], function(X, O, Board, Solver, Updater, Renderer) {
+define(['x', 'o', 'board', 'referee', 'human', 'bot', 'solver', 'updater', 'renderer'], 
+ function(X, O, Board, Referee, Human, Bot, Solver, Updater, Renderer) {
   var Game = Class.extend({
     init: function() {
       this.started = false;
       this.mouse = { x: 0, y: 0 };
       this.board = new Board();
-      this.turn = true;
+      this.referee = new Referee(new Human('Joshua', X), new Bot('Wag', O, this.board));
       this.finished = false;
+      this.turn = true;
 
       this.solver = new Solver(this.board);
     },
@@ -48,21 +50,18 @@ define(['x', 'o', 'board', 'solver', 'updater', 'renderer'], function(X, O, Boar
     },
 
     click: function() {
-      if (this.finished) {
-        return false;
-      }
-
       var pos = this.getMouseGridPosition(),
           marker;
 
-      if (this.turn) {
-        marker = new X(pos.x, pos.y);
+      if ((this.turn && this.referee.isHumanTurn()) && !this.finished) {
+        var player = this.referee.getCurrentPlayer();
+        marker = new player.marker(pos.x, pos.y);
       } else {
-        marker = new O(pos.x, pos.y);
+        return false;
       }
 
       if (this.board.addMarker(marker)) {
-        this.turn = !this.turn;
+        this.referee.turnComplete();
       }
     },
 

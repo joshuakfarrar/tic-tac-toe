@@ -15,7 +15,7 @@ define(['player', 'marker', 'board', 'solver', 'o', 'x'], function(Player, Marke
       }
       this.thinking = true;
       
-      var move = this.calculateBestMove();
+      this.calculateBestMove();
       this.board.addMarker(new this.marker(this.nextMove.x, this.nextMove.y));
 
       this.thinking = false;

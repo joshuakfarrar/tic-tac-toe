@@ -12,14 +12,21 @@ define(['solver'], function(Solver) {
         return false;
       }
       
-      if (this.solver.victoryConditionsMet()) {
+      this.solver.checkVictoryConditions();
+      
+      if (this.solver.hasWinner()) {
         console.log("victory");
-        this.game.finished = true;
+        this.game.over = true;
         return false;
       }
       
-      if (!this.referee.isHumanTurn()) {
-        this.referee.playForBot();
+      if (!this.referee.isHumanTurn() && !this.game.over) {
+        try {
+          this.referee.playForBot();
+        } catch (e) {
+          this.game.over = true;
+          console.log("HA-ha!");
+        }
       }
     }
   });

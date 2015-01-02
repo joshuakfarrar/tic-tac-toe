@@ -6,7 +6,7 @@ define(['x', 'o', 'board', 'referee', 'human', 'bot', 'solver', 'updater', 'rend
       this.mouse = { x: 0, y: 0 };
       this.board = new Board();
       this.referee = new Referee(new Human('Joshua', X), new Bot('Wag', O, this.board));
-      this.finished = false;
+      this.over = false;
       this.turn = true;
 
       this.solver = new Solver(this.board);

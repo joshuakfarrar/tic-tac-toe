@@ -1,39 +1,59 @@
 define(['x', 'o'], function(X, O) {
   var Solver = Class.extend({
     init: function(board) {
-      this.markers = board.markers;
-      this.victor = false;
+      this.board = board;
+      this.winner = false;
+    },
+    
+    hasWinner: function() {
+      return !!this.winner;
     },
 
-    victoryConditionsMet: function() {
+    checkVictoryConditions: function() {
+      this.winner = this.winningRow() || this.winningColumn() || this.winningDiagonal() || this.winningReverseDiagonal();
+    },
+    
+    winningRow: function() {
+      var candidate;
       for (var i = 0; i < 3; i++) {
-        this.checkRow([this.markers.getMarkerAt(i, 0), this.markers.getMarkerAt(i, 1), this.markers.getMarkerAt(i, 2)]);
-        this.checkRow([this.markers.getMarkerAt(0, i), this.markers.getMarkerAt(1, i), this.markers.getMarkerAt(2, i)]);
-
-        // why continue if we have a winner?
-        if (this.victor) {
-          return this.victor;
-        }
+        candidate = this.checkRow([this.board.getMarkerAt(i, 0), this.board.getMarkerAt(i, 1), this.board.getMarkerAt(i, 2)]);
+        if (candidate) return candidate;
       }
-
-      this.checkRow([this.markers.getMarkerAt(0, 0), this.markers.getMarkerAt(1, 1), this.markers.getMarkerAt(2, 2)]);
-      this.checkRow([this.markers.getMarkerAt(2, 0), this.markers.getMarkerAt(1, 1), this.markers.getMarkerAt(0, 2)]);
-
-      return this.victor;
+    },
+    
+    winningColumn: function() {
+      var candidate;
+      for (var i = 0; i < 3; i++) {
+        candidate = this.checkRow([this.board.getMarkerAt(0, i), this.board.getMarkerAt(1, i), this.board.getMarkerAt(2, i)]);
+        if (candidate) return candidate;
+      }
+    },
+    
+    winningDiagonal: function() {
+      var candidate = this.checkRow([this.board.getMarkerAt(0, 0), this.board.getMarkerAt(1, 1), this.board.getMarkerAt(2, 2)]);
+      if (candidate) return candidate;
+    },
+    
+    winningReverseDiagonal: function() {
+      var candidate = this.checkRow([this.board.getMarkerAt(2, 0), this.board.getMarkerAt(1, 1), this.board.getMarkerAt(0, 2)]);
+      if (candidate) return candidate;
     },
 
-    checkRow: function(row) {
+    checkRow: function(row, cb) {
       var self = this;
 
-      _.each([X, O], function(markerBeingChecked) {
+      // no async magic here      
+      var markers = [X, O];
+      
+      for (var i = 0; i < markers.length; i++) {
         if (row[0] === null || row[1] === null || row[2] === null) {
           return false;
         }
 
-        if (self.verifyMarkerTypes(row, markerBeingChecked)) {
-          self.victor = true;
+        if (self.verifyMarkerTypes(row, markers[i])) {
+          return markers[i];
         }
-      });
+      }
     },
 
     verifyMarkerTypes: function(row, markerBeingChecked) {

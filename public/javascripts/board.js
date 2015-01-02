@@ -1,21 +1,40 @@
-define(['markers'], function(Markers) {
+define(function() {
   var Board = Class.extend({
     init: function() {
-      this.markers = new Markers();
+      this.markers = [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null]
+      ];
     },
 
     addMarker: function(marker) {
-      if (this.markers.addMarker(marker)) {
-        return true;
+      if (!marker || this.getMarkerAt(marker.x, marker.y)) {
+        return false;
       }
-      return false;
+
+      this.markers[marker.y][marker.x] = marker;
+
+      return true;
     },
 
     getMarkerAt: function(x, y) {
-      return this.markers.getMarkerAt(x, y) || false;
+      if (!this.markers[y]) {
+        return false;
+      }
+      return this.markers[y][x] || false;
+    },
+    
+    getAvailableMoves: function() {
+      var moves = [];
+
+      for (var x = 0; x < 3; x++)
+        for (var y = 0; y < 3; y++)
+          if (!this.getMarkerAt(x, y))
+            moves.push({ x: x, y: y });
+
+      return moves;
     }
-
-
   });
 
   return Board;

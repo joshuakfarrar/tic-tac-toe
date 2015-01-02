@@ -46,11 +46,9 @@ define(['player', 'marker', 'board', 'solver', 'o', 'x'], function(Player, Marke
     scoreGame: function(solver, depth) {
       if (solver.winner === this.marker) {
         return 10 - depth;
-      }
-      else if (this.winner !== this.marker) {
+      } else if (this.winner !== this.marker) {
         return depth - 10;
-      }
-      else {
+      } else {
         return 0
       }
     },

@@ -54,11 +54,19 @@ define(['player', 'marker', 'board', 'solver', 'o', 'x'], function(Player, Marke
     },
     
     nextMarker: function(depth) {
-      if (depth % 2) {
+      if (this.isMyTurn(depth)) {
+        return this.marker;
+      } else {
         var marker = (this.marker === O) ? X : O;
         return marker;
+      }
+    },
+    
+    isMyTurn: function(depth) {
+      if (depth % 2) {
+        return false;
       } else {
-        return this.marker;
+        return true;
       }
     },
     
@@ -92,10 +100,10 @@ define(['player', 'marker', 'board', 'solver', 'o', 'x'], function(Player, Marke
       }
       
       var bestCandidate;
-      if (depth % 2) {
-        bestCandidate = _.min(candidates, function(candidate) { return candidate.score; });
-      } else {
+      if (this.isMyTurn(depth)) {
         bestCandidate = _.max(candidates, function(candidate) { return candidate.score; });
+      } else {
+        bestCandidate = _.min(candidates, function(candidate) { return candidate.score; });
       }
 
       this.nextMove = bestCandidate.move;

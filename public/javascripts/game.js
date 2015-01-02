@@ -53,7 +53,7 @@ define(['x', 'o', 'board', 'referee', 'human', 'bot', 'solver', 'updater', 'rend
       var pos = this.getMouseGridPosition(),
           marker;
 
-      if ((this.turn && this.referee.isHumanTurn()) && !this.finished) {
+      if ((this.turn && this.referee.isHumanTurn()) && !this.over) {
         var player = this.referee.getCurrentPlayer();
         marker = new player.marker(pos.x, pos.y);
       } else {

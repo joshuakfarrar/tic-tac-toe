@@ -2,11 +2,11 @@ define(['player', 'marker', 'board', 'solver', 'o', 'x'], function(Player, Marke
   var Bot = Player.extend({
     init: function(name, marker, board) {
       this.INITIAL_DEPTH = 0;
+
       this.name = name;
       this.marker = marker;
       this.board = board;
       this.thinking = false;
-      
       this.nextMove;
     },
     
